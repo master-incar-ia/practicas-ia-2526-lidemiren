@@ -1,0 +1,50 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Module",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "src.exercise_01.${fileBasenameNoExtension}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Python Debugger: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "exercise_01.dataset",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "src.exercise_01.dataset",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "exercise_01.train",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "src.exercise_01.train",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "exercise_01.model",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "src.exercise_01.model",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "exercise_01.evaluate",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "src.exercise_01.evaluate",
+            "console": "integratedTerminal"
+        },
+         ]
+}

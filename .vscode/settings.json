@@ -1,0 +1,10 @@
+{
+    "python.testing.pytestEnabled": true,
+    "[python]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+                "source.fixAll": "never",
+                "source.organizeImports": "explicit"
+            }
+    },
+}
