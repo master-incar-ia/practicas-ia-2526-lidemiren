@@ -47,4 +47,3 @@ if __name__ == "__main__":
     print(f"First item: {dataset[0]}")
     # save the plot
     dataset.plot(output_folder / "plot_dataset_example.png")
-    dataset.plot(output_folder / "plot_dataset_example.png")

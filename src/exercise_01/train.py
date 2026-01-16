@@ -49,7 +49,7 @@ def train_model(output_folder: Path, device: torch.device):
 
     # Training loop with validation and saving best weights
     num_epochs = 100
-    best_val_loss = float("inf")
+    best_val_loss = float("inf") # Apunta cual es el mejor loss de validacion y su modelo
     best_model_path = output_folder / "best_model.pth"
 
     train_losses = []
@@ -65,13 +65,11 @@ def train_model(output_folder: Path, device: torch.device):
             outputs = model(inputs_cuda, use_activation=False)
             loss = criterion(outputs, targets_cuda)
 
-
-
             train_loss += loss.item()
 
             # Backward pass and optimization
             optimizer.zero_grad()
-            loss.backward()
+            loss.backward() # calcular gradientes descendientes
             optimizer.step()
 
         train_loss /= len(train_loader)
