@@ -13,10 +13,13 @@ from torch.utils.data import Dataset
 class NoisyRegressionDataset(Dataset):
     def __init__(self, noise_std=20, size=100, seed=42):
         np.random.seed(seed)
-        self.x = np.random.uniform(0, 100, size=(size,))
+        self.x = np.random.uniform(0, 100, size=(size,)) # Genera datos de entrada uniformemente distribuidos entre 0 y 100
+        self.x_nor = self.x/ 100.0 # Normaliza los datos de entrada para que estén entre 0 y 1
         self.delta = np.random.normal(0, noise_std, size=(size,))
-        self.y = 100 * np.sin(8 * numpy.pi * self.x / 100) + 2 + self.delta
+        self.y = 100 * np.sin(8 * numpy.pi * self.x / 100) + 2 + self.delta # Genera los datos de salida con una función sinusoidal y agrega ruido gaussiano
+        
         # Create a DataFrame for visualization
+        self.x=self.x_nor
         df = pd.DataFrame(data=np.array([self.x, self.y]).transpose(), columns=["x", "y"])
         self.df = df
 
