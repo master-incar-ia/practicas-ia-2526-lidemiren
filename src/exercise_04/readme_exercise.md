@@ -29,6 +29,8 @@ Write your answer here
 
 Write your answer here
 
+F1 score y la matriz de confusión
+
 ## Data Considerations
 
 ### Dataset description

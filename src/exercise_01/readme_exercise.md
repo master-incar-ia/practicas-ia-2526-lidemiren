@@ -55,7 +55,6 @@ graph TD
     W --> M
 ```
 
-
 ## Evaluation metrics
 
 Since we are dealing with a regression problem, we will use the mean squared error (MSE), mean absolute error (MAE), and R-squared as evaluation metrics.
