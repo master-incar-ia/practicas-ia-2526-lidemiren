@@ -40,7 +40,8 @@ if __name__ == "__main__":
 
     # Data augmentation
     transform = transforms.Compose(
-        [transforms.ToTensor(), transforms.Normalize((0.0, 0.0, 0.0), (1.0, 1.0, 1.0))]
+        [transforms.ToTensor(),
+         transforms.Normalize((0.0, 0.0, 0.0), (1.0, 1.0, 1.0))]
     )
 
     dataset_train = CIFAR10Dataset("./data", train=True, transform=transform)
@@ -48,3 +49,5 @@ if __name__ == "__main__":
     print(f"Dataset length: {len(dataset_train)}")
     print(f"First item: {dataset_train[0]}")
     dataset_train.plot(output_folder / "plot_dataset_example.png")
+
+# onehot para pasar las respuestas a una matriz de 10 columnas, cada una con un 1 en la posición de la clase correspondiente y 0 en las demás
