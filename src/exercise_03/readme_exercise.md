@@ -173,6 +173,9 @@ Las métricas empleadas para evaluar el modelo son:
 
 Estas métricas se calculan de forma independiente sobre los conjuntos de entrenamiento, validación y test.
 
+
+Las gráficas de regresión que se observan a continuación muestran bastante proximidad entre los valores reales y los valores predichos.
+
 ![image](../../outs/exercise_03/train_regression_plot.png)
 
 ![image](../../outs/exercise_03/validation_regression_plot.png)
@@ -187,11 +190,11 @@ Metrics for each dataset is depicted:
 
 El valor de R² es cercano a 0.89 en train, validation y test, lo que indica que el modelo explica aproximadamente el 89% de la variabilidad de los datos.
 
-Los valores de MAE se sitúan alrededor de 19, lo cual tiene sentido con la desviación estándar del ruido introducido en el dataset.
+Los valores de MAE se sitúan alrededor de 19, lo cual tiene sentido por la desviación estándar del ruido introducido en el dataset.
 
 Los valores de MSE se mantienen estables entre los distintos conjuntos, lo que demuestra una buena capacidad de generalización.
 
-Las gráficas de regresión muestran una fuerte correlación entre los valores reales y los valores predichos, mientras que las gráficas de puntos evidencian que el modelo reproduce correctamente la forma sinusoidal subyacente.
+Las gráficas de puntos muestran que el modelo reproduce correctamente la forma sinusoidal del problema.
 
 Example for train set:
 
@@ -210,25 +213,37 @@ Example for test set:
 
 ### Discussion of the results
 
-How the model solves the problem?
-Is there overfitting, underfitting or any other issues? 
-How can we improve the model?
-How this model will generalize to new data?
+#### How the model solves the problem?
+El modelo aprende la relación entre la entrada y la salida mediante capas ocultas con activaciones ReLU. Esto le permite aproximar correctamente la forma sinusoidal de la función objetivo, a pesar del ruido presente en los datos.
 
+#### Is there overfitting, underfitting or any other issues? 
+No se observa ni overfitting ni underfitting. Las métricas de entrenamiento, validación y test son muy similares, lo que demuestra que hay un equilibrio adecuado entre capacidad del modelo y cantidad de datos.
+#### How can we improve the model?
+Se podría probar a utilizar otras funciones de activación que más adecuadas para este tipo de señal, ajustar el tamaño de batch, probar diferentes parámetros de entrenmiento etc.
+#### How this model will generalize to new data?
+Dado que las métricas en el conjunto de test son similares a las de entrenamiento y validación, se puede concluir que el modelo generaliza correctamente a datos no vistos previamente.
 ## Design Feedback loops
 
-Describe the process you have followed to improve the model and the evolution of performance of the model during the process.
+Primero se intentó con un modelo simple que estaba formado por una capa lineal sin capas ocultas ni funciones de activación no lineales. Este modelo solo puede aprender relaciones lineales, por lo que no era capaz de aprender la nueva señal y salían muy malos resultados.
 
-You can include a table stating the chanched parameters and the obtained results after the process.
+Por ello, se diseñó una arquitectura inicial de red neuronal multicapa con una profundidad suficiente para capturar la no linealidad del problema, utilizando capas ocultas con 64 neuronas. Además, se ajustaron los hiperparámetros principales, estableciendo un learning rate moderado y un número de 300 épocas, con el objetivo de permitir una convergencia progresiva del modelo sin incurrir en sobreajuste.
 
+Tras entrenar esta primera configuración, se observó que el valor de la función de pérdida era demasiado alto y que el modelo no lograba aproximar adecuadamente la salida predicha a la salida deseada. Este comportamiento indicaba que el modelo no tenía la capacidad suficiente para modelar la función sinusoidal. Además, la falta de normalización en los datos de entrada provocaba inestabilidades en el entrenamiento y dificultaba la optimización de los parámetros.
+
+Para solucionarlo, se normalizó la variable de entrada, escalando los valores al rango [0,1]. En segundo lugar, se aumentó la capacidad del modelo incrementando el número de neuronas en las capas ocultas de 64 a 128. De esta forma, la red obtuvo más flexibilidad para aprender la forma de la función, ya que con menos neuronas no conseguía capturar correctamente las oscilaciones pronunciadas de la señal sinusoidal. Finalmente, se amplió el número de épocas a 400, permitiendo que el modelo tuviera más iteraciones para converger hacia una solución óptima.
+
+Gracias a estas modificaciones, se logró una reducción significativa del error de entrenamiento y validación, así como una mejora clara en la aproximación de la función real.
 
 ## Questions
 
 Pleaser answer the following questions. Include graphs if necessary. Store the graphs in the `outs/exercise_03` folder.
 
 ### Which are the differences you found between previous model and this one?
+Este modelo permite abordar un problema más complejo que el anterior. Mientras que el modelo previo se utilizaba para aproximar una función cuadrática relativamente sencilla, el nuevo modelo debe aprender una función sinusoidal con oscilaciones más pronunciadas. Para ello, se ha normalizado la entrada, se ha aumentado el número de neuronas de 64 a 128 y se han ajustado las épocas de entrenamiento. Estos cambios permiten que el modelo tenga mayor capacidad para capturar la no linealidad y entrenar de forma más estable, logrando un mejor ajuste y una mejor generalización a nuevos datos.
 
 ### Does the model generalizes well to new data?
+Sí. La similitud entre las métricas de entrenamiento, validación y test demuestra que el modelo generaliza correctamente. Además, el valor elevado de R² en el conjunto de test confirma que el modelo captura la estructura de la función y no simplemente el ruido de los datos.
+
 
 
 
