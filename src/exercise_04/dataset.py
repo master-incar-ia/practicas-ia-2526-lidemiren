@@ -8,6 +8,12 @@ from torchvision import datasets, transforms
 
 class CIFAR10Dataset(Dataset):
     def __init__(self, root, train=True, transform=None, download=True):
+        # convierte la imagen PIL en tensor y normaliza cada canal.
+        if transform is None:
+            transform = transforms.Compose(
+            [transforms.ToTensor(),
+            transforms.Normalize((0.0, 0.0, 0.0), (1.0, 1.0, 1.0))]
+        )
         self.data = datasets.CIFAR10(root=root, train=train, transform=transform, download=download)
 
     def __len__(self):
