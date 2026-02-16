@@ -69,9 +69,7 @@ graph TD
     W --> M
 ```
 
-Durante el entrenamiento, los parámetros 
-𝑊
-W se actualizan iterativamente para reducir la discrepancia entre las predicciones del modelo y las etiquetas reales. Una vez finalizado el proceso, el modelo debería ser capaz de generalizar y clasificar correctamente imágenes no vistas previamente.
+Durante el entrenamiento, los parámetros $W$ se actualizan iterativamente para reducir la discrepancia entre las predicciones del modelo y las etiquetas reales. Una vez finalizado el proceso, el modelo debería ser capaz de generalizar y clasificar correctamente imágenes no vistas previamente.
 
 ## Evaluation metrics
 
@@ -170,11 +168,14 @@ El learning rate controla el tamaño de los pasos de actualización de los pesos
 
 ### Discussion of the training process
 
-El gráfico de la función de pérdida muestra una disminución progresiva del error en entrenamiento y validación. Esto indica que el modelo está aprendiendo representaciones útiles.
 
-Si la pérdida de entrenamiento continúa disminuyendo mientras que la de validación comienza a aumentar, esto indicaría sobreajuste. Si ambas permanecen altas y no disminuyen, indicaría infraajuste.
+En el gráfico se observa que al principio tanto el training loss como el validation loss disminuyen, lo que indica que el modelo está aprendiendo correctamente. Sin embargo, a partir de aproximadamente la época 10, el training loss sigue bajando de forma continua mientras que el validation loss deja de mejorar e incluso empieza a oscilar ligeramente.
 
-En este caso, el uso de Global Average Pooling y Dropout contribuye a mantener controlado el sobreajuste, permitiendo una convergencia estable.
+Esto es sobreajuste: el modelo continúa ajustándose cada vez mejor a los datos de entrenamiento, pero ya no mejora (e incluso empeora ligeramente) en datos no vistos.
+
+El mejor modelo se encuentra aproximadamente en la época 10, que es donde el validation loss alcanza su valor mínimo antes de empezar a estabilizarse o subir. Y es este modelo el que se usa para el test porque tenemos puesto en el código del entrenamiento save the best model según la validación.
+
+
 
 ## Evaluation
 
@@ -231,9 +232,15 @@ En cuanto a generalización, el modelo debería funcionar adecuadamente en datos
 
 ## Design Feedback loops
 
-Describe the process you have followed to improve the model and the evolution of performance of the model during the process.
+Para mejorar el modelo se siguió un proceso iterativo, introduciendo cambios progresivos en la arquitectura y analizando cómo afectaban a las métricas de entrenamiento, validación y test. Después de cada modificación, el modelo se volvía a entrenar y se comparaban los resultados para comprobar si realmente había una mejora.
 
-You can include a table stating the chanched parameters and the obtained results after the process.
+En una primera fase se partió de una CNN básica con varios bloques de convolución y capas de MaxPooling, basandome en la arquitectura de VGG16. El modelo daba resultados aceptables, pero todavía se podia mejorar.
+
+Por lo que, se añadieron más capas de convolución y se aumentó el número de filtros en las capas más profundas. Esto permitió mejorar la accuracy en entrenamiento, aunque también incrementó ligeramente el riesgo de sobreajuste.
+
+Para estabilizar el entrenamiento y mejorar la generalización, se añadió Batch Normalization después de las capas convolucionales. Esto ayudó a que el proceso de aprendizaje fuera más estable y redujo la diferencia entre las métricas de entrenamiento y validación.
+
+Por úlyimo, se añadió una capa nn.AdaptiveAvgPool2d al final del bloque convolucional. Esta capa reduce cada mapa de características a un único valor antes de la clasificación, lo que disminuye el número de parámetros y ayuda a controlar el sobreajuste. Con esto daba unas métricas mejores que al principio, por lo que este es el modelo final.
 
 
 ## Questions
@@ -243,8 +250,7 @@ You can include a table stating the chanched parameters and the obtained results
 
 Este modelo utiliza redes neuronales convolucionales (CNN) en lugar de multilayer perceptrons (MLP), lo que le permite aprovechar la estructura espacial de las imágenes. Mientras que en un MLP la imagen se aplana en un vector, perdiendo la información local entre píxeles vecinos, en una CNN se mantienen las dimensiones espaciales y se aplican filtros que detectan patrones como bordes, texturas y formas. 
 
-El modelo convolucional es
- más adecuado para datos de tipo imagen, más eficiente computacionalmente y con mejor capacidad de generalización que el modelo anterior basado en perceptrones multicapa.
+El modelo convolucional es más adecuado para datos de tipo imagen, más eficiente computacionalmente y con mejor capacidad de generalización que el modelo anterior basado en perceptrones multicapa.
 
 ### Does the model generalizes well to new data?
 
