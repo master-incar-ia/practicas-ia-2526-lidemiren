@@ -203,7 +203,11 @@ El modelo generaliza de forma limitada a datos no vistos. Para mejorar el rendim
 
 ## Design Feedback loops
 
-Durante el desarrollo del modelo se experimentó con distintas configuraciones, como el número de neuronas y el número de capas. Al principio se entrenó el modelo durante 25 épocas. Al ver que se creaba un gran overfitting se redujo ese número de épocas a 10.
+Para el desarrollo de este modelo se tomó como punto de partida la arquitectura MLP utilizada en el ejercicio 3. Dado que en este caso se trata de un problema de clasificación, más complejo que el de regresión, fue necesario aumentar la capacidad del modelo añadiendo una capa adicional, permitiendo así un aprendizaje más adecuado de los datos.
+
+Además, el número de neuronas se reduce progresivamente a lo largo de las capas con el objetivo de que el modelo vaya simplificando la información de entrada. En las primeras capas se trabaja con una gran cantidad de datos, ya que las imágenes contienen muchos píxeles y detalles. A medida que la información avanza por la red, las capas posteriores se centran en combinar y resumir dicha información, buscando patrones más relevantes y quedándose únicamente con aquellos aspectos esenciales para realizar la clasificación final.
+
+Por otro lado, en un primer intento, el modelo se entrenó durante 25 épocas. Aunque la pérdida de entrenamiento disminuía de forma constante, se observó que la pérdida de validación comenzaba a aumentar a partir de cierto punto, indicando la aparición de sobreajuste. Para solucionar este problema, se redujo el número de épocas a 10 de forma que el modelo dejó de sobreentrenarse, manteniendo un rendimiento más estable en el conjunto de validación, pero sin conseguir alcanzar valores demasiado bajos de loss,
 
 ## Questions
 
