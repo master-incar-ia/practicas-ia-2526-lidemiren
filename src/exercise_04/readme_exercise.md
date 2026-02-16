@@ -148,7 +148,7 @@ Se guarda el modelo con mejor rendimiento en validación, lo que evita seleccion
 
 Los hiperparámetros utilizados son:
 
-Número de épocas: 10
+Número de épocas: 20
 
 Batch size: 64
 
